@@ -1,0 +1,371 @@
+import os
+from weasyprint import HTML
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+    @page {
+        size: A4;
+        margin: 12mm 12mm 12mm 12mm;
+        background-color: #ffffff;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #2b2d42;
+        margin: 0;
+        padding: 0;
+        font-size: 9.5pt;
+        line-height: 1.38;
+        background-color: #ffffff;
+    }
+
+    /* HEADER STYLING */
+    .header {
+        border-bottom: 2px solid #1a365d;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+    }
+
+    .name {
+        font-size: 20pt;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #1a365d;
+        text-transform: uppercase;
+        margin: 0 0 2px 0;
+    }
+
+    .title-line {
+        font-size: 11pt;
+        font-weight: 600;
+        color: #0d9488;
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+    }
+
+    .contact-bar {
+        font-size: 8.5pt;
+        color: #4a5568;
+    }
+
+    .contact-bar span {
+        display: inline-block;
+    }
+
+    .contact-bar .sep {
+        margin: 0 5px;
+        color: #cbd5e1;
+    }
+
+    .contact-bar a {
+        color: #1a365d;
+        text-decoration: none;
+    }
+
+    /* SECTION HEADINGS */
+    .section-title {
+        font-size: 10.5pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #1a365d;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 3px;
+        margin-top: 11px;
+        margin-bottom: 7px;
+        page-break-after: avoid;
+    }
+
+    /* SUMMARY */
+    .summary-text {
+        color: #334155;
+        text-align: justify;
+        margin-bottom: 8px;
+    }
+
+    /* CORE SKILLS TABLE */
+    .skills-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 6px;
+    }
+
+    .skills-table td {
+        padding: 2.5px 0;
+        vertical-align: top;
+    }
+
+    .skills-cat {
+        width: 22%;
+        font-weight: 700;
+        color: #1a365d;
+        font-size: 8.8pt;
+    }
+
+    .skills-val {
+        width: 78%;
+        color: #334155;
+        font-size: 8.8pt;
+    }
+
+    /* EXPERIENCE SECTION */
+    .job-block {
+        margin-bottom: 9px;
+        page-break-inside: avoid;
+    }
+
+    .job-header {
+        margin-bottom: 3px;
+    }
+
+    .job-title-row {
+        width: 100%;
+        display: table;
+    }
+
+    .job-title {
+        display: table-cell;
+        font-weight: 700;
+        font-size: 9.8pt;
+        color: #0f172a;
+    }
+
+    .job-date {
+        display: table-cell;
+        text-align: right;
+        font-weight: 600;
+        color: #0d9488;
+        font-size: 8.8pt;
+    }
+
+    .company-sub {
+        font-size: 8.8pt;
+        color: #475569;
+        font-style: italic;
+        margin-top: 1px;
+        margin-bottom: 4px;
+    }
+
+    .bullet-list {
+        margin: 0;
+        padding-left: 15px;
+    }
+
+    .bullet-list li {
+        margin-bottom: 3px;
+        color: #334155;
+        text-align: justify;
+    }
+
+    .sub-section-title {
+        font-weight: 700;
+        color: #1a365d;
+        font-size: 9pt;
+        margin-top: 5px;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* EDUCATION TABLE */
+    .edu-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .edu-table td {
+        padding: 3px 0;
+        vertical-align: top;
+    }
+
+    .edu-degree {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 9pt;
+    }
+
+    .edu-inst {
+        color: #475569;
+        font-size: 8.8pt;
+    }
+
+    .edu-date {
+        text-align: right;
+        font-weight: 600;
+        color: #0d9488;
+        font-size: 8.8pt;
+    }
+</style>
+</head>
+<body>
+
+    <!-- HEADER -->
+        <div class="name">AKHIL T CHERIYAN</div>
+        <div class="title-line">Lead Engineer | AI/ML &amp; Backend Engineering</div>
+        <div class="contact-bar">
+            <span>Kochi, Kerala, India</span>
+            <span class="sep">•</span>
+            <span>Phone: +91 9446987019</span>
+            <span class="sep">•</span>
+            <span>Email: <a href="mailto:akhiltcheriyan002@gmail.com">akhiltcheriyan002@gmail.com</a></span>
+            <span class="sep">•</span>
+            <span>GitHub: <a href="https://github.com/AkhilATC">github.com/AkhilATC</a></span>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section-title">Professional Summary</div>
+    <div class="summary-text">
+        Lead Engineer with 8+ years of software engineering experience designing scalable backend architectures, distributed processing pipelines, dynamic rule engines, and ETL transformation platforms. Expert in Python, FastAPI, Flask, MongoDB, Celery, Airflow, and compiler design concepts (DSLs, CFG parsers, AST-based execution engines). Specialized in AI/ML engineering, PyTorch, Transformer architectures, custom token embeddings, NLP, and LLM-based DSL generation—combining production backend reliability with research-driven, deterministic intelligent systems.
+    </div>
+
+    <!-- CORE SKILLS -->
+    <div class="section-title">Core Technical Skills</div>
+    <table class="skills-table">
+        <tr>
+            <td class="skills-cat">Languages &amp; Backend:</td>
+            <td class="skills-val">Python, Java, JavaScript, FastAPI, Flask, Spring Boot, REST APIs, Microservices Architecture</td>
+        </tr>
+        <tr>
+            <td class="skills-cat">AI / ML / GenAI:</td>
+            <td class="skills-val">PyTorch, Transformers, LLMs, NLP, Domain Embeddings, RAG, LlamaIndex, LangChain</td>
+        </tr>
+        <tr>
+            <td class="skills-cat">Compiler / DSL:</td>
+            <td class="skills-val">Lark Parser, Context-Free Grammar (CFG), Abstract Syntax Trees (AST), DSL Design, Dynamic Rule Engines</td>
+        </tr>
+        <tr>
+            <td class="skills-cat">Data &amp; Distributed:</td>
+            <td class="skills-val">MongoDB, PyMongo, Motor, Redis, Celery, RabbitMQ, Apache Airflow, ETL Pipelines, Batch &amp; Event-Driven Systems</td>
+        </tr>
+        <tr>
+            <td class="skills-cat">Cloud, Search &amp; Tools:</td>
+            <td class="skills-val">Docker, Kubernetes (AKS), Azure Blob Storage, ELK Stack, OpenSearch, Git</td>
+        </tr>
+        <tr>
+            <td class="skills-cat">Knowledge Engineering:</td>
+            <td class="skills-val">Semantic Knowledge Modeling, Ontology, OWL, OWLAPI, Apache Jena</td>
+        </tr>
+    </table>
+
+    <!-- PROFESSIONAL EXPERIENCE -->
+    <div class="section-title">Professional Experience</div>
+
+    <!-- JOB 1 -->
+    <div class="job-block">
+        <div class="job-header">
+            <div class="job-title-row">
+                <span class="job-title">Lead Engineer</span>
+                <span class="job-date">2023 – Present</span>
+            </div>
+            <div class="company-sub">InerG Innovations &amp; Technologies, Kochi | Projects: FieldPulse, Almika, QuardINs</div>
+        </div>
+        <ul class="bullet-list">
+            <li>Architected and maintained resilient Python microservices (FastAPI, Flask, MongoDB) powering three enterprise products with high reliability, automated validation, and structured error handling.</li>
+            <li>Designed and built a DSL-based ETL transformation compiler; implemented CFG parsing, AST generation, execution-plan building, conditional logic, and MongoDB execution to replace hard-coded ETL routines.</li>
+            <li>Engineered a dynamic business rule engine using Lark CFG parsing to convert complex expressions into ASTs executed dynamically at runtime.</li>
+            <li>Orchestrated workflows using Apache Airflow DAGs and Celery distributed processing for schedulers, asynchronous task execution, and real-time alert triggers.</li>
+            <li>Constructed event-driven data synchronization pipelines connecting Azure Blob Storage, MongoDB, and Celery, featuring checkpointing, retries, partial execution, and automated audit trails.</li>
+        </ul>
+
+        <div class="sub-section-title" style="margin-top: 4px;">AI / Transformer R&amp;D (InerG Innovations)</div>
+        <ul class="bullet-list">
+            <li>Spearheaded research on Natural Language → Domain-Specific DSL translation using Transformer encoder-decoder models.</li>
+            <li>Designed 32-dimensional domain-specific embeddings representing DSL tokens and transformation constructs for compact semantic representation.</li>
+            <li>Implemented lightweight PyTorch Transformer models with custom token/positional embeddings, Q/K/V multi-head attention, encoder-decoder cross-attention, and logit classification.</li>
+            <li>Evaluated local LLM fine-tuning and hybrid embedding strategies (combining sentence embeddings with domain tokens) to build an AI-assisted, deterministic DSL compiler.</li>
+        </ul>
+    </div>
+
+    <!-- JOB 2 -->
+    <div class="job-block">
+        <div class="job-header">
+            <div class="job-title-row">
+                <span class="job-title">Software Engineer</span>
+                <span class="job-date">2022 – 2023</span>
+            </div>
+            <div class="company-sub">Dexlock Technologies, Kochi | Project: Programmatic Ad Tech</div>
+        </div>
+        <ul class="bullet-list">
+            <li>Developed scalable backend components for a Real-Time Bidding (RTB) ad tech platform with focus on high-throughput execution.</li>
+            <li>Engineered and optimized the Campaign Manager module, enabling rich filter-based search, campaign configuration, and data processing workflows.</li>
+            <li>Designed high-performance RESTful APIs handling real-time communication between campaign managers and bidding engines.</li>
+        </ul>
+    </div>
+
+    <!-- JOB 3 -->
+    <div class="job-block">
+        <div class="job-header">
+            <div class="job-title-row">
+                <span class="job-title">R&amp;D Engineer</span>
+                <span class="job-date">2018 – 2022</span>
+            </div>
+            <div class="company-sub">Cognicor Technologies, Kochi | Project: CIRA — Digital Assistant Platform</div>
+        </div>
+        <ul class="bullet-list">
+            <li>Engineered Python microservices supporting large-scale conversational AI and enterprise digital assistant deployments.</li>
+            <li>Built distributed task queuing architectures using Celery and Redis to handle long-running asynchronous background operations.</li>
+            <li>Architected an ontology service using Apache Jena and OWLAPI to perform semantic reasoning, OWL manipulation, and Ontology-to-JSON knowledge-base conversions.</li>
+        </ul>
+    </div>
+
+    <!-- JOB 4 -->
+    <div class="job-block">
+        <div class="job-header">
+            <div class="job-title-row">
+                <span class="job-title">Python Developer Intern</span>
+                <span class="job-date">2017 – 2018</span>
+            </div>
+            <div class="company-sub">Mozanta Technologies, Trivandrum | Project: Interviewer Chatbot</div>
+        </div>
+        <ul class="bullet-list">
+            <li>Contributed to backend development for a voice-interfaced AI chatbot platform.</li>
+            <li>Constructed graph-based data ingestion workflows and knowledge representations using Neo4j and Flask.</li>
+        </ul>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section-title">Education</div>
+    <table class="edu-table">
+        <tr>
+            <td>
+                <div class="edu-degree">M.Tech in Data Science &amp; Artificial Intelligence</div>
+                <div class="edu-inst">Cochin University of Science and Technology (CUSAT)</div>
+            </td>
+            <td class="edu-date">2023 – 2026</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="edu-degree">M.Sc. in Computer Science (Specialization in Machine Intelligence)</div>
+                <div class="edu-inst">Indian Institute of Information Technology and Management - Kerala (IIITM-K)</div>
+            </td>
+            <td class="edu-date">2016 – 2018</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="edu-degree">BCA (Bachelor of Computer Applications)</div>
+                <div class="edu-inst">University Institute of Technology, Kollam (University of Kerala)</div>
+            </td>
+            <td class="edu-date">2013 – 2016</td>
+        </tr>
+    </table>
+
+</body>
+</html>
+"""
+
+html_path = "akhil_cheriyan_cv.html"
+pdf_path = "akhil_cheriyan_cv.pdf"
+
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+HTML(html_path).write_pdf(pdf_path)
+print(f"PDF generated successfully: {pdf_path}")
